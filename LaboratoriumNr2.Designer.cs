@@ -39,6 +39,7 @@
             this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
             this.lblGrubosc = new System.Windows.Forms.Label();
             this.numericGrubosc = new System.Windows.Forms.NumericUpDown();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbRysownica)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).BeginInit();
@@ -146,11 +147,21 @@
             this.numericGrubosc.TabIndex = 9;
             this.numericGrubosc.ValueChanged += new System.EventHandler(this.numericGrubosc_ValueChanged);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(39, 289);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 10;
+            this.button1.Text = "test1";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // LaboratoriumNr2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1069, 631);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.numericGrubosc);
             this.Controls.Add(this.lblGrubosc);
             this.Controls.Add(this.btnStart);
@@ -183,5 +194,6 @@
         private System.Windows.Forms.ErrorProvider errorProvider2;
         private System.Windows.Forms.NumericUpDown numericGrubosc;
         private System.Windows.Forms.Label lblGrubosc;
+        private System.Windows.Forms.Button button1;
     }
 }
