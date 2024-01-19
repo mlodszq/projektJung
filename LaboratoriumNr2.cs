@@ -34,20 +34,20 @@ namespace Projekt2_Karwowski65859
 
             //lokalizacja i zweryfikowanie formularza
             this.Location = new Point(Screen.PrimaryScreen.Bounds.X + MarginesFormularza,
-                Screen.PrimaryScreen.Bounds.Y  + MarginesFormularza);
-            this.Width  = (int) (Screen.PrimaryScreen.Bounds.Width * 0.85F);
-            this.Height = (int) (Screen.PrimaryScreen.Bounds.Height * 0.9F);
+                Screen.PrimaryScreen.Bounds.Y + MarginesFormularza);
+            this.Width = (int)(Screen.PrimaryScreen.Bounds.Width * 0.85F);
+            this.Height = (int)(Screen.PrimaryScreen.Bounds.Height * 0.9F);
             this.StartPosition = FormStartPosition.Manual;
             //lokalizacja kontrolek umieszczonych na formularzu
-            
+
             //lokalizacja kontrolki label: "Podaj liczbe figur geom. do losowej prezentacji" 
-            lblN.Location = new Point(this.Left + MarginesFormularza, this.Top  + MarginesFormularza);
+            lblN.Location = new Point(this.Left + MarginesFormularza, this.Top + MarginesFormularza);
 
             //lokalizacja kontrolki TextBox: txtN
             txtN.Location = new Point(lblN.Left - Margines, lblN.Top + lblN.Height + Margines);
-            
+
             //lokalizacja kontrolki Button: btnStart
-            btnStart.Location = new Point(txtN.Left, txtN.Top +txtN.Height + Margines);
+            btnStart.Location = new Point(txtN.Left, txtN.Top + txtN.Height + Margines);
 
             //lokalizacja i zwymiarowanie kontrolki PictureBox
             pbRysownica.Location = new Point(txtN.Left + txtN.Width + MarginesFormularza, txtN.Top);
@@ -159,13 +159,13 @@ namespace Projekt2_Karwowski65859
             if (chbFiguryGeometryczne.CheckedItems.Count <= 0)
             {//jest blad, to go sygnalizujemy
                 errorProvider1.SetError(chbFiguryGeometryczne, "ERROR: musisz wybrac (zaznaczyc) co najmniej jedna figure geometryczna");
-             return; // przerwanie dalszej obslugi zdarzenia Click: btnStart_Click
+                return; // przerwanie dalszej obslugi zdarzenia Click: btnStart_Click
             }
             //skopiowanie kolekcji wybranych (zaznaczony) figur Geometrycznych 
             CheckedListBox.CheckedItemCollection WybraneFigury =
                                 chbFiguryGeometryczne.CheckedItems;
             // ustawienie stanu braku aktywnosci dla kontrolki chbFiguryGeometryczne
-            chbFiguryGeometryczne.Enabled = false;
+            chbFiguryGeometryczne.Enabled = true;
             // przygotowanie parametrow dla losowania atrybutow kreslonych figur geometrycznych
             int Xmax = pbRysownica.Width;
             int Ymax = pbRysownica.Height;
@@ -177,7 +177,7 @@ namespace Projekt2_Karwowski65859
             int OsDuza, OsMala;
             int WylosowanyIndeksFigury;
             // dla N figur geometrycznych losujemy ich atrybuty, tworzymy egzemplarz i wykreslamy 
-            for (int i = 0; i <N; i++)
+            for (int i = 0; i < N; i++)
             {
                 // losowanie wartosci atrybutow dla i-tej figury geometrycznej 
                 X = rnd.Next(Odstep, Xmax - Odstep);
@@ -188,9 +188,10 @@ namespace Projekt2_Karwowski65859
                 //losowanie grubosci linii 
                 GruboscLinii = rnd.Next(1, 10);
                 //losowanie stylu linii 
-                switch(rnd.Next(0, 5))
+                switch (rnd.Next(0, 5))
                 {
-                    case 0: StylLinii = DashStyle.Solid;
+                    case 0:
+                        StylLinii = DashStyle.Solid;
                         break;
 
                     case 1:
@@ -208,15 +209,15 @@ namespace Projekt2_Karwowski65859
                     default: StylLinii = DashStyle.Solid; break;
                 }
                 // wylosowanie indexu figury do utworzenia jej egzemplarza 
-                WylosowanyIndeksFigury = rnd.Next(WybraneFigury.Count); 
+                WylosowanyIndeksFigury = rnd.Next(WybraneFigury.Count);
                 // rozpoznanie wylosowanej figury i utworzenie dla egzemplarza
                 switch (WybraneFigury[WylosowanyIndeksFigury].ToString())
                 {
                     case "Punkt":
                         // utworzenie egzemplarzu i wpisanie jego adresu referencyjnego do TFG
                         TFG[IndexTFG] = new Punkt(X, Y, KolorLinii);
-                            // wykreslenie punktu 
-                            TFG[IndexTFG].Wykresl(Rysownica);
+                        // wykreslenie punktu 
+                        TFG[IndexTFG].Wykresl(Rysownica);
                         // zwiekszenie indeksu 
                         IndexTFG++;
                         break;
@@ -328,10 +329,30 @@ namespace Projekt2_Karwowski65859
             //ustawienie stanu braku aktywnosci dla przycisku polecen START
             btnStart.Enabled = false;
 
+            // Po utworzeniu figur, dodaj ich typy do chbFiguryGeometryczne
+            chbFiguryGeometryczne.Items.Clear();
+
+            HashSet<string> dodaneTypyFigur = new HashSet<string>();
+
+            for (int i = 0; i < IndexTFG; i++)
+            {
+                if (TFG[i] != null)
+                {
+                    string nazwaTypuFigury = TFG[i].GetType().Name;
+
+                    // Sprawdź, czy nazwa typu figury została już dodana
+                    if (!dodaneTypyFigur.Contains(nazwaTypuFigury))
+                    {
+                        chbFiguryGeometryczne.Items.Add(nazwaTypuFigury);
+                        dodaneTypyFigur.Add(nazwaTypuFigury);
+                    }
+                }
+            }
+
         }
 
 
-       
+
         private void numericGrubosc_ValueChanged(object sender, EventArgs e)
         {
             pbRysownica.Invalidate();
@@ -388,7 +409,7 @@ namespace Projekt2_Karwowski65859
 
         }
 
-       
+
 
         private void btnZmienKolorTla_Click(object sender, EventArgs e)
         {
@@ -448,10 +469,72 @@ namespace Projekt2_Karwowski65859
 
         private void btnZmienKolorLinii_Click(object sender, EventArgs e)
         {
-          
+            // Sprawdź, czy figury zostały utworzone
+            if (TFG == null || TFG.Length == 0)
+            {
+                MessageBox.Show("Najpierw utwórz figury geometryczne.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Pobierz wybrany kolor z przycisku wziernika koloru linii
+            Color nowyKolorLinii = btnWziernikKoloruLinii.BackColor;
+
+            // Pobierz wybrany typ figury
+            if (chbFiguryGeometryczne.SelectedItem == null)
+            {
+                MessageBox.Show("Wybierz typ figury, któremu chcesz zmienić kolor.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            string wybranyTypFigury = chbFiguryGeometryczne.SelectedItem.ToString();
+
+            // Przejdź przez wszystkie figury i zmień kolor tych, które pasują do wybranego typu
+            foreach (Punkt figura in TFG)
+            {
+                if (figura != null && figura.GetType().Name == wybranyTypFigury)
+                {
+                    figura.Kolor = nowyKolorLinii; // Ustaw nowy kolor
+                    figura.Wymaz(pbRysownica, Rysownica); // Wymaż starą figurę
+                    figura.Wykresl(Rysownica); // Wykreśl ponownie z nowym kolorem
+                }
+            }
+
+            // Odświeżenie powierzchni graficznej
+            pbRysownica.Refresh();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // 1. Wyczyszczenie tablicy TFG
+            TFG = null;
+            IndexTFG = 0;
+
+            // 2. Resetowanie grafiki
+            Rysownica.Clear(pbRysownica.BackColor);
+            pbRysownica.Refresh();
+
+            // 3. Przywrócenie domyślnych ustawień kontrolek
+            txtN.Enabled = true;
+            txtN.Text = "";
+            numericGrubosc.Value = 1;
+            btnWziernikKoloruLinii.BackColor = Color.Transparent;
+
+            // 4. Resetowanie chbFiguryGeometryczne do początkowych elementów
+            chbFiguryGeometryczne.Items.Clear();
+            chbFiguryGeometryczne.Items.Add("Punkt");
+            chbFiguryGeometryczne.Items.Add("Linia");
+            chbFiguryGeometryczne.Items.Add("Elipsa");
+            chbFiguryGeometryczne.Items.Add("Okrag");
+            chbFiguryGeometryczne.Items.Add("Prostokat");
+            chbFiguryGeometryczne.Items.Add("Kwadrat");
+            chbFiguryGeometryczne.Items.Add("Elipsa Wypelniana");
+            // Dodaj więcej elementów według potrzeb...
+
+            // 5. Aktywowanie/deaktywowanie odpowiednich kontrolek
+            btnStart.Enabled = true;
+            chbFiguryGeometryczne.Enabled = true;
+
+            //dodać inne resety które będą potrzebne
         }
     }
 
-
 }
-

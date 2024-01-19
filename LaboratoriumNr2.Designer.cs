@@ -45,6 +45,7 @@
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.btnZmienKolorLinii = new System.Windows.Forms.Button();
             this.lblWziernikKoloruLinii = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbRysownica)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).BeginInit();
@@ -200,11 +201,22 @@
             this.lblWziernikKoloruLinii.TabIndex = 14;
             this.lblWziernikKoloruLinii.Text = "Wziernik koloru linii";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(39, 484);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 15;
+            this.button1.Text = "STOP";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // LaboratoriumNr2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1069, 631);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.lblWziernikKoloruLinii);
             this.Controls.Add(this.btnZmienKolorLinii);
             this.Controls.Add(this.btnWziernikKoloruLinii);
@@ -248,5 +260,6 @@
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.Button btnZmienKolorLinii;
         private System.Windows.Forms.Label lblWziernikKoloruLinii;
+        private System.Windows.Forms.Button button1;
     }
 }

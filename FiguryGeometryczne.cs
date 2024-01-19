@@ -24,7 +24,7 @@ namespace Projekt2_Karwowski65859
             protected int X, Y;
             public FiguraGeometryczna Figura { get; protected set; }
 
-            public Color Kolor { get; protected set; }
+            public Color Kolor { get; set; }
             public float GruboscPunktu { get; protected set; }
 
             public float GruboscLinii { get; set; }
@@ -43,6 +43,7 @@ namespace Projekt2_Karwowski65859
                 StylLinii = DashStyle.Solid; KolorTla = Color.White;
                 Widoczny = false;
                 Figura = FiguraGeometryczna.Punkt;
+                
 
             }
 
@@ -118,6 +119,7 @@ namespace Projekt2_Karwowski65859
                 //przechowanie w egzemplarzu Linii jej atrybutow graficznych 
                 Kolor = KolorLinii;
                 this.StylLinii  = StylLinii; this.GruboscPunktu = GruboscLinii;
+
             }
             //nadpisanie metod wirtualnych z klasy Punkt (i jest to konieczne, gdyz inaczej kresli sie Punkt, a inaczej Linie)
             public override void Wykresl(Graphics Rysownica)
