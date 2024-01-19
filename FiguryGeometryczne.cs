@@ -33,6 +33,7 @@ namespace Projekt2_Karwowski65859
             public Color KolorTla { get; protected set; } // wypelnienia figury
             public bool Widoczny { get; protected set; }
             // deklaracje konstruktorow
+
             public Punkt (int x, int y)
             {
                 // ustalenie wartosci atrybutow: X i Y tworzonego egzemplarza punktu
@@ -42,6 +43,7 @@ namespace Projekt2_Karwowski65859
                 StylLinii = DashStyle.Solid; KolorTla = Color.White;
                 Widoczny = false;
                 Figura = FiguraGeometryczna.Punkt;
+
             }
 
             public Punkt(int x, int y, Color KolorPunktu): this (x, y)

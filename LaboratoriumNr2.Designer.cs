@@ -39,7 +39,12 @@
             this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
             this.lblGrubosc = new System.Windows.Forms.Label();
             this.numericGrubosc = new System.Windows.Forms.NumericUpDown();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnPrzesuniecieBezZmian = new System.Windows.Forms.Button();
+            this.btnZmienKolorTla = new System.Windows.Forms.Button();
+            this.btnWziernikKoloruLinii = new System.Windows.Forms.Button();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.btnZmienKolorLinii = new System.Windows.Forms.Button();
+            this.lblWziernikKoloruLinii = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbRysownica)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).BeginInit();
@@ -147,21 +152,64 @@
             this.numericGrubosc.TabIndex = 9;
             this.numericGrubosc.ValueChanged += new System.EventHandler(this.numericGrubosc_ValueChanged);
             // 
-            // button1
+            // btnPrzesuniecieBezZmian
             // 
-            this.button1.Location = new System.Drawing.Point(39, 289);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "test1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnPrzesuniecieBezZmian.Location = new System.Drawing.Point(21, 251);
+            this.btnPrzesuniecieBezZmian.Name = "btnPrzesuniecieBezZmian";
+            this.btnPrzesuniecieBezZmian.Size = new System.Drawing.Size(159, 110);
+            this.btnPrzesuniecieBezZmian.TabIndex = 10;
+            this.btnPrzesuniecieBezZmian.Text = "Przesuniecie do nowego polozenia bez zmiany atrybutow graficznych";
+            this.btnPrzesuniecieBezZmian.UseVisualStyleBackColor = true;
+            this.btnPrzesuniecieBezZmian.Click += new System.EventHandler(this.btnPrzesuniecieBezZmian_Click);
+            // 
+            // btnZmienKolorTla
+            // 
+            this.btnZmienKolorTla.Location = new System.Drawing.Point(411, -7);
+            this.btnZmienKolorTla.Name = "btnZmienKolorTla";
+            this.btnZmienKolorTla.Size = new System.Drawing.Size(243, 42);
+            this.btnZmienKolorTla.TabIndex = 11;
+            this.btnZmienKolorTla.Text = "Zmien kolor tla powierzchni kreslarskiej";
+            this.btnZmienKolorTla.UseVisualStyleBackColor = true;
+            this.btnZmienKolorTla.Click += new System.EventHandler(this.btnZmienKolorTla_Click);
+            // 
+            // btnWziernikKoloruLinii
+            // 
+            this.btnWziernikKoloruLinii.Location = new System.Drawing.Point(411, 489);
+            this.btnWziernikKoloruLinii.Name = "btnWziernikKoloruLinii";
+            this.btnWziernikKoloruLinii.Size = new System.Drawing.Size(133, 33);
+            this.btnWziernikKoloruLinii.TabIndex = 12;
+            this.btnWziernikKoloruLinii.UseVisualStyleBackColor = true;
+            this.btnWziernikKoloruLinii.Click += new System.EventHandler(this.btnWziernikKoloruLinii_Click);
+            // 
+            // btnZmienKolorLinii
+            // 
+            this.btnZmienKolorLinii.Location = new System.Drawing.Point(222, 468);
+            this.btnZmienKolorLinii.Name = "btnZmienKolorLinii";
+            this.btnZmienKolorLinii.Size = new System.Drawing.Size(160, 54);
+            this.btnZmienKolorLinii.TabIndex = 13;
+            this.btnZmienKolorLinii.Text = "Zmien Kolor Linii";
+            this.btnZmienKolorLinii.UseVisualStyleBackColor = true;
+            this.btnZmienKolorLinii.Click += new System.EventHandler(this.btnZmienKolorLinii_Click);
+            // 
+            // lblWziernikKoloruLinii
+            // 
+            this.lblWziernikKoloruLinii.AutoSize = true;
+            this.lblWziernikKoloruLinii.Location = new System.Drawing.Point(424, 473);
+            this.lblWziernikKoloruLinii.Name = "lblWziernikKoloruLinii";
+            this.lblWziernikKoloruLinii.Size = new System.Drawing.Size(97, 13);
+            this.lblWziernikKoloruLinii.TabIndex = 14;
+            this.lblWziernikKoloruLinii.Text = "Wziernik koloru linii";
             // 
             // LaboratoriumNr2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1069, 631);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.lblWziernikKoloruLinii);
+            this.Controls.Add(this.btnZmienKolorLinii);
+            this.Controls.Add(this.btnWziernikKoloruLinii);
+            this.Controls.Add(this.btnZmienKolorTla);
+            this.Controls.Add(this.btnPrzesuniecieBezZmian);
             this.Controls.Add(this.numericGrubosc);
             this.Controls.Add(this.lblGrubosc);
             this.Controls.Add(this.btnStart);
@@ -194,6 +242,11 @@
         private System.Windows.Forms.ErrorProvider errorProvider2;
         private System.Windows.Forms.NumericUpDown numericGrubosc;
         private System.Windows.Forms.Label lblGrubosc;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnPrzesuniecieBezZmian;
+        private System.Windows.Forms.Button btnZmienKolorTla;
+        private System.Windows.Forms.Button btnWziernikKoloruLinii;
+        private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.Button btnZmienKolorLinii;
+        private System.Windows.Forms.Label lblWziernikKoloruLinii;
     }
 }

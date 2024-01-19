@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using static Projekt2_Karwowski65859.FiguryGeometryczne;
 //dodanie przestrzeni nazw dla potrzeb grafiki 2D
 using System.Drawing.Drawing2D;
+using System.Reflection.Emit;
 
 namespace Projekt2_Karwowski65859
 {
@@ -80,8 +81,20 @@ namespace Projekt2_Karwowski65859
             //lokalizacja kontrolki NumericUpDown 
             numericGrubosc.Location = new Point(lblGrubosc.Location.X, lblGrubosc.Location.Y + Margines * 2);
 
+            //lokalizacja przycisku: "Przesuniecie do nowego polozenia bez zmiany atrybutow graficznych"
+            btnPrzesuniecieBezZmian.Location = new Point(btnStart.Location.X, btnStart.Location.Y + Margines * 7);
 
+            //lokalizacja przycisku: "Zmien kolor tla powierzchni kreslarskiej"
+            btnZmienKolorTla.Location = new Point(pbRysownica.Location.X + Margines * 40, pbRysownica.Location.Y - Margines * 5);
 
+            //lokalizacja przycisku: "Zmien kolor linii"
+            btnZmienKolorLinii.Location = new Point(pbRysownica.Location.X + Margines * 2, pbRysownica.Bottom + Margines * 4);
+
+            //lokalizacja przycisku: "btnWziernikKoloruLinii"
+            btnWziernikKoloruLinii.Location = new Point(btnZmienKolorLinii.Location.X + Margines * 20, btnZmienKolorLinii.Location.Y + Margines * 2);
+
+            //lokalizacja kontrolki label: "Wziernik koloru linii"
+            lblWziernikKoloruLinii.Location = new Point(btnWziernikKoloruLinii.Location.X, btnWziernikKoloruLinii.Location.Y - Margines * 2);
 
         }
 
@@ -316,6 +329,8 @@ namespace Projekt2_Karwowski65859
             btnStart.Enabled = false;
 
         }
+
+
        
         private void numericGrubosc_ValueChanged(object sender, EventArgs e)
         {
@@ -337,8 +352,106 @@ namespace Projekt2_Karwowski65859
             }
         }
 
-     
+        private Random random = new Random();
 
-   
+        private void btnPrzesuniecieBezZmian_Click(object sender, EventArgs e)
+        {
+            // Sprawdź, czy figury zostały utworzone
+            if (TFG == null || TFG.Length == 0)
+            {
+                MessageBox.Show("Najpierw utwórz figury geometryczne.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Wyczyść powierzchnię graficzną przed przesunięciem figur
+            WyczyscPowierzchnieGraficzna();
+
+            // deklaracja i utworzenie egzemplarza generatora liczb losowych
+            Random rnd = new Random();
+
+            // Przesuń każdą figurę do nowego losowego miejsca
+            for (int i = 0; i < IndexTFG; i++)
+            {
+                if (TFG[i] != null)
+                {
+                    // Losowanie nowych współrzędnych dla figury
+                    int newX = rnd.Next(Odstep, pbRysownica.Width - Odstep);
+                    int newY = rnd.Next(Odstep, pbRysownica.Height - Odstep);
+
+                    // Przesunięcie figury do nowego miejsca
+                    TFG[i].PrzesunDoNowegoXY(pbRysownica, Rysownica, newX, newY);
+                }
+            }
+
+            // Odświeżenie powierzchni graficznej
+            pbRysownica.Refresh();
+
+        }
+
+       
+
+        private void btnZmienKolorTla_Click(object sender, EventArgs e)
+        {
+            // Utwórz nowy ColorDialog
+            ColorDialog colorDialog = new ColorDialog();
+
+            // Ustaw aktualny kolor jako domyślny kolor wyboru
+            colorDialog.Color = pbRysownica.BackColor;
+
+            // Pokaż okno dialogowe do wyboru koloru
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                // Ustaw nowy kolor tła dla pbRysownica
+                pbRysownica.BackColor = colorDialog.Color;
+
+                // Wyczyszczenie i ponowne narysowanie figur na nowym tle
+                WyczyscPowierzchnieGraficzna();
+                RysujFigury();
+            }
+        }
+
+        private void WyczyscPowierzchnieGraficzna()
+        {
+            Rysownica.Clear(pbRysownica.BackColor);
+        }
+
+        private void RysujFigury()
+        {
+            // Przesuń każdą figurę do nowego losowego miejsca
+            for (int i = 0; i < IndexTFG; i++)
+            {
+                if (TFG[i] != null)
+                {
+                    TFG[i].Wykresl(Rysownica);
+                }
+            }
+
+            // Odświeżenie powierzchni graficznej
+            pbRysownica.Refresh();
+        }
+
+        private void btnWziernikKoloruLinii_Click(object sender, EventArgs e)
+        {
+            // Utwórz obiekt ColorDialog
+            using (ColorDialog colorDialog = new ColorDialog())
+            {
+                // Otwórz okno dialogowe do wyboru koloru
+                if (colorDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Pobierz wybrany kolor
+                    Color selectedColor = colorDialog.Color;
+                    btnWziernikKoloruLinii.BackColor = selectedColor;
+
+                }
+            }
+        }
+
+        private void btnZmienKolorLinii_Click(object sender, EventArgs e)
+        {
+          
+        }
     }
+
+
 }
+

@@ -35,3 +35,16 @@ C:\Users\Michał\Desktop\studia\ProjektJung\obj\Debug\Projekt2_Karwowski65859.cs
 C:\Users\Michał\Desktop\studia\ProjektJung\obj\Debug\Projekt2_Karwowski65859.csproj.CoreCompileInputs.cache
 C:\Users\Michał\Desktop\studia\ProjektJung\obj\Debug\Projekt2_Karwowski65859.exe
 C:\Users\Michał\Desktop\studia\ProjektJung\obj\Debug\Projekt2_Karwowski65859.pdb
+C:\Users\patry\Desktop\projektJung-main\bin\Debug\Projekt2_Karwowski65859.exe.config
+C:\Users\patry\Desktop\projektJung-main\bin\Debug\Projekt2_Karwowski65859.exe
+C:\Users\patry\Desktop\projektJung-main\bin\Debug\Projekt2_Karwowski65859.pdb
+C:\Users\patry\Desktop\projektJung-main\obj\Debug\Projekt2_Karwowski65859.csproj.AssemblyReference.cache
+C:\Users\patry\Desktop\projektJung-main\obj\Debug\Projekt2_Karwowski65859.csproj.SuggestedBindingRedirects.cache
+C:\Users\patry\Desktop\projektJung-main\obj\Debug\Projekt2_Karwowski65859.pkMainForm.resources
+C:\Users\patry\Desktop\projektJung-main\obj\Debug\Projekt2_Karwowski65859.LaboratoriumNr2.resources
+C:\Users\patry\Desktop\projektJung-main\obj\Debug\Projekt2_Karwowski65859.pkProjektIndywidualnyNr2.resources
+C:\Users\patry\Desktop\projektJung-main\obj\Debug\Projekt2_Karwowski65859.Properties.Resources.resources
+C:\Users\patry\Desktop\projektJung-main\obj\Debug\Projekt2_Karwowski65859.csproj.GenerateResource.cache
+C:\Users\patry\Desktop\projektJung-main\obj\Debug\Projekt2_Karwowski65859.csproj.CoreCompileInputs.cache
+C:\Users\patry\Desktop\projektJung-main\obj\Debug\Projekt2_Karwowski65859.exe
+C:\Users\patry\Desktop\projektJung-main\obj\Debug\Projekt2_Karwowski65859.pdb
