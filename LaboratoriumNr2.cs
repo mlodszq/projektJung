@@ -96,6 +96,40 @@ namespace Projekt2_Karwowski65859
             //lokalizacja kontrolki label: "Wziernik koloru linii"
             lblWziernikKoloruLinii.Location = new Point(btnWziernikKoloruLinii.Location.X, btnWziernikKoloruLinii.Location.Y - Margines * 2);
 
+            //lokalizacja kontrolki label: "Zmiana stylu linii"
+            lblZmienStylLinii.Location = new Point(lblWziernikKoloruLinii.Location.X + Margines * 38, lblWziernikKoloruLinii.Location.Y);
+
+            //lokalizacja kontrolki comboBoxStylLinii
+            comboBoxStylLinii.Location = new Point(btnWziernikKoloruLinii.Location.X + Margines * 32, btnWziernikKoloruLinii.Location.Y);
+
+            //lokalizacja przycisku btnPrzesuniecieZeZmianami
+            btnPrzesuniecieZeZmianami.Location = new Point(btnPrzesuniecieBezZmian.Location.X, btnPrzesuniecieBezZmian.Bottom + Margines);
+
+            //lokalizacja przycisku btnNowaFigura
+            btnNowaFigura.Location = new Point(btnPrzesuniecieZeZmianami.Location.X, btnPrzesuniecieZeZmianami.Bottom + Margines);
+
+            //lokalizacja kontrolki lblNarzedzia
+            lblNarzedzia.Location = new Point(btnZmienKolorLinii.Location.X, btnZmienKolorLinii.Top - Margines * 3);
+
+            //lokalizacja przycisku btnWlaczPrezentacje
+            btnWlaczPrezentacje.Location = new Point(chbFiguryGeometryczne.Location.X, chbFiguryGeometryczne.Bottom + Margines);
+
+            //lokalizacja kontrolki lblIndeksFigury
+            lblIndeksFigury.Location = new Point(btnWlaczPrezentacje.Location.X + Margines * 3, btnWlaczPrezentacje.Bottom + Margines);
+
+            //lokalizacja kontrolki txtIndeksFigury
+            txtIndeksFigury.Location = new Point(lblIndeksFigury.Location.X, lblIndeksFigury.Bottom + Margines);
+
+            //lokalizacja kontrolki btnNastepny
+            btnNastepny.Location = new Point(btnWlaczPrezentacje.Location.X, txtIndeksFigury.Bottom + Margines);
+
+            //lokalizacja kontrolki btnPoprzedni
+            btnPoprzedni.Location = new Point(btnNastepny.Right + Margines, btnNastepny.Location.Y);
+
+            //lokalizacja kontrolki btnWylaczPrezentacje
+            btnWylaczPrezentacje.Location = new Point(btnNastepny.Location.X, btnNastepny.Bottom + Margines);
+            //lokalizacja przycisku btnStop
+            // btnStop.Location = new Point();
         }
 
         private void LaboratoriumNr2_FormClosing(object sender, FormClosingEventArgs e)
@@ -321,7 +355,16 @@ namespace Projekt2_Karwowski65859
 
                 } //od switcha
 
-
+                // Po utworzeniu figur, ustaw dostępność przycisków
+                btnPrzesuniecieBezZmian.Enabled = true;
+                btnZmienKolorLinii.Enabled = true;
+                numericGrubosc.Enabled = true;
+                comboBoxStylLinii.Enabled = true;
+                btnPrzesuniecieZeZmianami.Enabled = true;
+                btnNowaFigura.Enabled = true;
+                btnWlaczPrezentacje.Enabled = true;
+                txtIndeksFigury.Enabled = true;
+                btnStop.Enabled = true;
 
             }  //od for ( . . . )
             // odswiezenie powierzchni graficznej 
@@ -502,7 +545,9 @@ namespace Projekt2_Karwowski65859
             pbRysownica.Refresh();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+
+
+        private void btnStop_Click(object sender, EventArgs e)
         {
             // 1. Wyczyszczenie tablicy TFG
             TFG = null;
@@ -532,9 +577,168 @@ namespace Projekt2_Karwowski65859
             // 5. Aktywowanie/deaktywowanie odpowiednich kontrolek
             btnStart.Enabled = true;
             chbFiguryGeometryczne.Enabled = true;
+            btnPrzesuniecieBezZmian.Enabled = false;
+            btnZmienKolorLinii.Enabled = false;
+            numericGrubosc.Enabled = false;
+            comboBoxStylLinii.Enabled = false;
+            btnPrzesuniecieZeZmianami.Enabled = false;
+            btnNowaFigura.Enabled = false;
+            btnWlaczPrezentacje.Enabled = false;
+            txtIndeksFigury.Enabled = false;
+            btnStop.Enabled = false;
 
             //dodać inne resety które będą potrzebne
         }
-    }
 
+        private void comboBoxStylLinii_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Pobierz wybrany typ figury
+            if (chbFiguryGeometryczne.SelectedItem == null)
+            {
+                MessageBox.Show("Wybierz typ figury, której chcesz zmienić styl linii.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+        }
+
+        private void btnPrzesuniecieZeZmianami_Click(object sender, EventArgs e)
+        {
+            // Sprawdź, czy figury zostały utworzone
+            if (TFG == null || TFG.Length == 0)
+            {
+                MessageBox.Show("Najpierw utwórz figury geometryczne.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Wyczyść powierzchnię graficzną przed przesunięciem figur
+            WyczyscPowierzchnieGraficzna();
+
+            // deklaracja i utworzenie egzemplarza generatora liczb losowych
+            Random rnd = new Random();
+
+            // Przesuń każdą figurę do nowego losowego miejsca i nadaj jej nowe atrybuty
+            for (int i = 0; i < IndexTFG; i++)
+            {
+                if (TFG[i] != null)
+                {
+                    // Losowanie nowych współrzędnych dla figury
+                    int newX = rnd.Next(Odstep, pbRysownica.Width - Odstep);
+                    int newY = rnd.Next(Odstep, pbRysownica.Height - Odstep);
+
+                    // Losowanie nowego koloru linii
+                    Color newLineColor = Color.FromArgb(rnd.Next(0, 255), rnd.Next(0, 255), rnd.Next(0, 255));
+
+                    // Losowanie nowej grubości linii
+                    float newLineWidth = rnd.Next(1, 10);
+
+                    // Losowanie nowego stylu linii
+                    DashStyle newLineStyle;
+                    switch (rnd.Next(0, 5))
+                    {
+                        case 0:
+                            newLineStyle = DashStyle.Solid;
+                            break;
+                        case 1:
+                            newLineStyle = DashStyle.Dash;
+                            break;
+                        case 2:
+                            newLineStyle = DashStyle.Dot;
+                            break;
+                        case 3:
+                            newLineStyle = DashStyle.DashDot;
+                            break;
+                        case 4:
+                            newLineStyle = DashStyle.DashDotDot;
+                            break;
+                        default:
+                            newLineStyle = DashStyle.Solid;
+                            break;
+                    }
+
+                    // Aktualizacja atrybutów figury
+                    TFG[i].X = newX;
+                    TFG[i].Y = newY;
+                    TFG[i].Kolor = newLineColor;
+                    TFG[i].GruboscLinii = newLineWidth;
+                    TFG[i].StylLinii = newLineStyle;
+
+                    // Przesunięcie figury do nowego miejsca
+                    TFG[i].PrzesunDoNowegoXY(pbRysownica, Rysownica, newX, newY);
+                }
+            }
+
+            // Odświeżenie powierzchni graficznej
+            pbRysownica.Refresh();
+        }
+
+        private void btnNowaFigura_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnWlaczPrezentacje_Click(object sender, EventArgs e)
+        {
+            //wymazanie (wyczyszczenie) powierzchni graficznej
+            Rysownica.Clear(pbRysownica.BackColor);
+
+            int IndeksFigury = 0;
+
+            //sprawdzenie czy został podany indeks figury do prezentacji
+            if (string.IsNullOrEmpty(txtIndeksFigury.Text.Trim()))
+                txtIndeksFigury.Text = "0"; //wpisanie indeksu domyslnego, gdyz pole edycyjne kontrolki txtIndeksFigury bylo puste
+            else
+            { //pobranie wpisanego indeksu figury w TFG
+                if (!int.TryParse(txtIndeksFigury.Text, out IndeksFigury))
+                {
+                    errorProvider1.SetError(txtIndeksFigury, "ERROR: Bledny zapis indeksu figury!");
+                    return;
+                }    
+
+                if ((IndeksFigury < 0 || IndeksFigury >= (TFG.Length)))
+                {
+                    errorProvider1.SetError(txtIndeksFigury, "ERROR: Indeks figur wykracza poza tablice TFG!");
+                    return;
+                }
+                // "zgaszenie" wylaczenie errorProvider1
+                errorProvider1.Dispose();
+            }
+
+            txtIndeksFigury.ReadOnly = true;
+
+            int Xmax = pbRysownica.Width;
+            int Ymax = pbRysownica.Height;
+            //prezentacja figury geometrycznej w środku powierzchni graficznej
+            TFG[IndeksFigury].PrzesunDoNowegoXY(pbRysownica, Rysownica, Xmax / 2, Ymax / 2);
+
+            //uaktywnienie przyciskow nawigacyjnych
+            btnNastepny.Enabled = true;
+            btnPoprzedni.Enabled = true;
+
+            pbRysownica.Refresh();
+
+            //ustawienie stanu braku aktywnosci dla przycisku polecen: Wlaczenie slajdera figur geometrycznych, gdyz jego obsluga zostala zakonczona
+            btnWlaczPrezentacje.Enabled = false;
+            //uaktywnienie przycisku polecen wylacz pokaz (slajder) figur geometrycznych
+            btnWylaczPrezentacje.Enabled = true;
+        } //od btnWlaczPrezentacje
+
+        private void timer1_Tick(object sender, EventArgs e)
+        { //wymazanie (wyczyszczenie) powierzchni graficznej
+            Rysownica.Clear(pbRysownica.BackColor);
+
+            int Xmax = pbRysownica.Width;
+            int Ymax = pbRysownica.Height; 
+
+            txtIndeksFigury.Text = timer1.Tag.ToString();
+
+            TFG[(int)timer1.Tag].PrzesunDoNowegoXY(pbRysownica, Rysownica, Xmax / 2, Ymax / 2);
+
+            pbRysownica.Refresh();
+
+            timer1.Tag = (int.Parse(timer1.Tag.ToString()) + 1) % (TFG.Length - 1);
+
+
+
+
+        } //od timer1_Tick
+    }
 }

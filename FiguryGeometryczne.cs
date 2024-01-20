@@ -21,7 +21,7 @@ namespace Projekt2_Karwowski65859
         public class Punkt
         {
             // deklaracje atrybutow niezbednych dla wykreslenia 
-            protected int X, Y;
+            public int X, Y;
             public FiguraGeometryczna Figura { get; protected set; }
 
             public Color Kolor { get; set; }
@@ -29,7 +29,7 @@ namespace Projekt2_Karwowski65859
 
             public float GruboscLinii { get; set; }
             // deklaracja atrybutow waznych dla implementacji funkcjonalnosci udostepnionych w formularzu
-            public DashStyle StylLinii { get; protected set; }
+            public DashStyle StylLinii { get; set; }
             public Color KolorTla { get; protected set; } // wypelnienia figury
             public bool Widoczny { get; protected set; }
             // deklaracje konstruktorow
