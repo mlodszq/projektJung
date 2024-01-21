@@ -124,30 +124,24 @@ namespace Projekt2_Karwowski65859
             //nadpisanie metod wirtualnych z klasy Punkt (i jest to konieczne, gdyz inaczej kresli sie Punkt, a inaczej Linie)
             public override void Wykresl(Graphics Rysownica)
             {
-                // przygotowanie narzedzia do kreslenia 
                 using (Pen Pioro = new Pen(Kolor, GruboscPunktu))
-                { //ustawienie stylu linii 
+                {
                     Pioro.DashStyle = StylLinii;
-                    // wykreslenie linii 
                     Rysownica.DrawLine(Pioro, X, Y, Xk, Yk);
-                    // uaktualnienie atrybutu  Widocznosci
                     Widoczny = true;
-                } //Tutaj nastapi automatyczne zwolnienie Piora 
+                }
             }
             public override void Wymaz(Control Kontrolka, Graphics Rysownica)
             {
-                //sprawdzenie czy linia jest wykreslona
-                if(Widoczny)
+                if (Widoczny)
                 {
                     using (Pen Pioro = new Pen(Kontrolka.BackColor, GruboscPunktu))
-                    { //ustawienie stylu linii 
+                    {
                         Pioro.DashStyle = StylLinii;
-                        // wykreslenie linii 
                         Rysownica.DrawLine(Pioro, X, Y, Xk, Yk);
-                        // uaktualnienie atrybutu  Widocznosci
                         Widoczny = false;
-                    } //Tutaj nastapi automatyczne zwolnienie Piora 
-                }    
+                    }
+                }
             }
             public override void PrzesunDoNowegoXY(Control Kontrolka, Graphics Rysownica, int x, int y)
             {

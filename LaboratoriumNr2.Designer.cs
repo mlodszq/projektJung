@@ -58,10 +58,19 @@
             this.btnNastepny = new System.Windows.Forms.Button();
             this.btnWylaczPrezentacje = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.trackBarX = new System.Windows.Forms.TrackBar();
+            this.txtX = new System.Windows.Forms.TextBox();
+            this.trackBarY = new System.Windows.Forms.TrackBar();
+            this.txtY = new System.Windows.Forms.TextBox();
+            this.lblUstawNoweWspolrzedne = new System.Windows.Forms.Label();
+            this.lblX = new System.Windows.Forms.Label();
+            this.lblY = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbRysownica)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericGrubosc)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarY)).BeginInit();
             this.SuspendLayout();
             // 
             // pbRysownica
@@ -96,9 +105,9 @@
             this.lblWyborFigury.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.lblWyborFigury.Location = new System.Drawing.Point(884, 141);
             this.lblWyborFigury.Name = "lblWyborFigury";
-            this.lblWyborFigury.Size = new System.Drawing.Size(185, 34);
+            this.lblWyborFigury.Size = new System.Drawing.Size(189, 34);
             this.lblWyborFigury.TabIndex = 2;
-            this.lblWyborFigury.Text = "Zaznacz (kliknieciem myszą)\r\nfigury geometryczne do okazu\r\n";
+            this.lblWyborFigury.Text = "Zaznacz (kliknieciem myszą)\r\nfigury geometryczne do okazu)\r\n";
             // 
             // lblN
             // 
@@ -305,6 +314,7 @@
             this.txtIndeksFigury.Name = "txtIndeksFigury";
             this.txtIndeksFigury.Size = new System.Drawing.Size(100, 20);
             this.txtIndeksFigury.TabIndex = 23;
+            this.txtIndeksFigury.TextChanged += new System.EventHandler(this.txtIndeksFigury_TextChanged);
             // 
             // lblIndeksFigury
             // 
@@ -324,6 +334,7 @@
             this.btnPoprzedni.TabIndex = 25;
             this.btnPoprzedni.Text = "Poprzedni";
             this.btnPoprzedni.UseVisualStyleBackColor = true;
+            this.btnPoprzedni.Click += new System.EventHandler(this.btnPoprzedni_Click);
             // 
             // btnNastepny
             // 
@@ -334,6 +345,7 @@
             this.btnNastepny.TabIndex = 26;
             this.btnNastepny.Text = "Nastepny";
             this.btnNastepny.UseVisualStyleBackColor = true;
+            this.btnNastepny.Click += new System.EventHandler(this.btnNastepny_Click);
             // 
             // btnWylaczPrezentacje
             // 
@@ -345,6 +357,7 @@
             this.btnWylaczPrezentacje.TabIndex = 27;
             this.btnWylaczPrezentacje.Text = "Wylacz prezentacje figur geometrycznych";
             this.btnWylaczPrezentacje.UseVisualStyleBackColor = true;
+            this.btnWylaczPrezentacje.Click += new System.EventHandler(this.btnWylaczPrezentacje_Click);
             // 
             // timer1
             // 
@@ -352,11 +365,79 @@
             this.timer1.Tag = "0";
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // trackBarX
+            // 
+            this.trackBarX.Enabled = false;
+            this.trackBarX.Location = new System.Drawing.Point(341, 540);
+            this.trackBarX.Maximum = 500;
+            this.trackBarX.Name = "trackBarX";
+            this.trackBarX.Size = new System.Drawing.Size(104, 45);
+            this.trackBarX.TabIndex = 28;
+            this.trackBarX.Scroll += new System.EventHandler(this.trackBarX_Scroll);
+            // 
+            // txtX
+            // 
+            this.txtX.Location = new System.Drawing.Point(464, 540);
+            this.txtX.Name = "txtX";
+            this.txtX.Size = new System.Drawing.Size(57, 20);
+            this.txtX.TabIndex = 29;
+            // 
+            // trackBarY
+            // 
+            this.trackBarY.Enabled = false;
+            this.trackBarY.Location = new System.Drawing.Point(555, 540);
+            this.trackBarY.Maximum = 500;
+            this.trackBarY.Name = "trackBarY";
+            this.trackBarY.Size = new System.Drawing.Size(104, 45);
+            this.trackBarY.TabIndex = 30;
+            this.trackBarY.Scroll += new System.EventHandler(this.trackBarY_Scroll);
+            // 
+            // txtY
+            // 
+            this.txtY.Location = new System.Drawing.Point(677, 540);
+            this.txtY.Name = "txtY";
+            this.txtY.Size = new System.Drawing.Size(57, 20);
+            this.txtY.TabIndex = 31;
+            // 
+            // lblUstawNoweWspolrzedne
+            // 
+            this.lblUstawNoweWspolrzedne.AutoSize = true;
+            this.lblUstawNoweWspolrzedne.Location = new System.Drawing.Point(150, 525);
+            this.lblUstawNoweWspolrzedne.Name = "lblUstawNoweWspolrzedne";
+            this.lblUstawNoweWspolrzedne.Size = new System.Drawing.Size(281, 13);
+            this.lblUstawNoweWspolrzedne.TabIndex = 32;
+            this.lblUstawNoweWspolrzedne.Text = "Ustaw nowe wspolrzedne (polozenia figury geometrycznej)";
+            // 
+            // lblX
+            // 
+            this.lblX.AutoSize = true;
+            this.lblX.Location = new System.Drawing.Point(441, 543);
+            this.lblX.Name = "lblX";
+            this.lblX.Size = new System.Drawing.Size(17, 13);
+            this.lblX.TabIndex = 33;
+            this.lblX.Text = "X:";
+            // 
+            // lblY
+            // 
+            this.lblY.AutoSize = true;
+            this.lblY.Location = new System.Drawing.Point(654, 543);
+            this.lblY.Name = "lblY";
+            this.lblY.Size = new System.Drawing.Size(17, 13);
+            this.lblY.TabIndex = 34;
+            this.lblY.Text = "Y:";
+            // 
             // LaboratoriumNr2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1069, 631);
+            this.Controls.Add(this.lblY);
+            this.Controls.Add(this.lblX);
+            this.Controls.Add(this.lblUstawNoweWspolrzedne);
+            this.Controls.Add(this.txtY);
+            this.Controls.Add(this.trackBarY);
+            this.Controls.Add(this.txtX);
+            this.Controls.Add(this.trackBarX);
             this.Controls.Add(this.btnWylaczPrezentacje);
             this.Controls.Add(this.btnNastepny);
             this.Controls.Add(this.btnPoprzedni);
@@ -389,6 +470,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericGrubosc)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarY)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -425,5 +508,12 @@
         private System.Windows.Forms.Button btnPoprzedni;
         private System.Windows.Forms.Button btnWylaczPrezentacje;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.TrackBar trackBarX;
+        private System.Windows.Forms.TextBox txtX;
+        private System.Windows.Forms.TextBox txtY;
+        private System.Windows.Forms.TrackBar trackBarY;
+        private System.Windows.Forms.Label lblY;
+        private System.Windows.Forms.Label lblX;
+        private System.Windows.Forms.Label lblUstawNoweWspolrzedne;
     }
 }

@@ -27,9 +27,26 @@ namespace Projekt2_Karwowski65859
         const ushort Margines = 10;
         const ushort MarginesFormularza = 20;
 
+        private int aktualnaLokalizacjaX = 0;
+        private int aktualnaLokalizacjaY = 0;
+
+        
+
+
         public LaboratoriumNr2()
         {
             InitializeComponent();
+
+
+            txtX.ReadOnly = true;
+            txtY.ReadOnly = true;
+            // Ustaw maksymalną wartość dla TrackBarX na szerokość pbRysownica
+            trackBarX.Maximum = pbRysownica.Width;
+
+            // Ustaw maksymalną wartość dla TrackBarY na wysokość pbRysownica
+            trackBarY.Maximum = pbRysownica.Height;
+
+    
 
 
             //lokalizacja i zweryfikowanie formularza
@@ -128,8 +145,31 @@ namespace Projekt2_Karwowski65859
 
             //lokalizacja kontrolki btnWylaczPrezentacje
             btnWylaczPrezentacje.Location = new Point(btnNastepny.Location.X, btnNastepny.Bottom + Margines);
+
+            //lokalizacja kontrolki lblUstawNoweWspolrzedne
+            lblUstawNoweWspolrzedne.Location = new Point(btnZmienKolorLinii.Location.X, btnZmienKolorLinii.Bottom + Margines);
+
+            //lokalizacja kontrolki lblX
+            lblX.Location = new Point(lblUstawNoweWspolrzedne.Right + Margines, lblUstawNoweWspolrzedne.Location.Y);
+
+            //lokalizacja kontrolki TrackBarX
+            trackBarX.Location = new Point(lblX.Right + Margines, lblUstawNoweWspolrzedne.Location.Y);
+
+            //lokalizacja kontrolki txtX
+            txtX.Location = new Point(trackBarX.Right + Margines, lblUstawNoweWspolrzedne.Location.Y);
+
+            //lokalizacja kontrolki lblY
+            lblY.Location = new Point(txtX.Right + Margines, lblUstawNoweWspolrzedne.Location.Y);
+
+            //lokalizacja kontrolki trackBarY
+            trackBarY.Location = new Point(lblY.Right + Margines, lblUstawNoweWspolrzedne.Location.Y);
+
+            //lokalizacja kontrolki txtY
+            txtY.Location = new Point(trackBarY.Right + Margines, lblUstawNoweWspolrzedne.Location.Y);
+
             //lokalizacja przycisku btnStop
-            // btnStop.Location = new Point();
+             btnStop.Location = new Point(btnStart.Location.X, btnNowaFigura.Bottom + Margines);
+
         }
 
         private void LaboratoriumNr2_FormClosing(object sender, FormClosingEventArgs e)
@@ -165,8 +205,11 @@ namespace Projekt2_Karwowski65859
 
         }
 
+        private int currentIndex;
+
         private void btnStart_Click(object sender, EventArgs e)
         {
+
             // deklaracja i utworzenie egzemplarza generatora liczb losowych
             Random rnd = new Random();
             // deklaracja zmiennej N dla wczytania liczb figur do prezentacji
@@ -213,6 +256,11 @@ namespace Projekt2_Karwowski65859
             // dla N figur geometrycznych losujemy ich atrybuty, tworzymy egzemplarz i wykreslamy 
             for (int i = 0; i < N; i++)
             {
+                // wylosowanie indexu figury do utworzenia jej egzemplarza 
+                WylosowanyIndeksFigury = rnd.Next(WybraneFigury.Count);
+
+                // przypisanie wylosowanego indeksu do zmiennej currentIndex
+                currentIndex = WylosowanyIndeksFigury;
                 // losowanie wartosci atrybutow dla i-tej figury geometrycznej 
                 X = rnd.Next(Odstep, Xmax - Odstep);
                 Y = rnd.Next(Odstep, Ymax - Odstep);
@@ -365,6 +413,9 @@ namespace Projekt2_Karwowski65859
                 btnWlaczPrezentacje.Enabled = true;
                 txtIndeksFigury.Enabled = true;
                 btnStop.Enabled = true;
+                btnWziernikKoloruLinii.Enabled = true;
+                trackBarX.Enabled = true;
+                trackBarY.Enabled  = true;
 
             }  //od for ( . . . )
             // odswiezenie powierzchni graficznej 
@@ -398,22 +449,7 @@ namespace Projekt2_Karwowski65859
 
         private void numericGrubosc_ValueChanged(object sender, EventArgs e)
         {
-            pbRysownica.Invalidate();
-
-            // Pobierz wartość z kontrolki numericGrubosc
-            float nowaGrubosc = (float)numericGrubosc.Value;
-
-            // Przypisz nową grubość linii wybranym figurom geometrycznym
-            for (int i = 0; i < IndexTFG; i++)
-            {
-                if (TFG[i] != null)
-                {
-                    TFG[i].GruboscLinii = nowaGrubosc;
-                    // Ponownie wykreśl figurę z zaktualizowaną grubością linii
-                    TFG[i].Wymaz(pbRysownica, Rysownica);
-                    TFG[i].Wykresl(Rysownica);
-                }
-            }
+           
         }
 
         private Random random = new Random();
@@ -430,20 +466,22 @@ namespace Projekt2_Karwowski65859
             // Wyczyść powierzchnię graficzną przed przesunięciem figur
             WyczyscPowierzchnieGraficzna();
 
-            // deklaracja i utworzenie egzemplarza generatora liczb losowych
-            Random rnd = new Random();
-
-            // Przesuń każdą figurę do nowego losowego miejsca
+            // Przesuń każdą figurę do nowego miejsca
             for (int i = 0; i < IndexTFG; i++)
             {
                 if (TFG[i] != null)
                 {
-                    // Losowanie nowych współrzędnych dla figury
-                    int newX = rnd.Next(Odstep, pbRysownica.Width - Odstep);
-                    int newY = rnd.Next(Odstep, pbRysownica.Height - Odstep);
-
-                    // Przesunięcie figury do nowego miejsca
-                    TFG[i].PrzesunDoNowegoXY(pbRysownica, Rysownica, newX, newY);
+                    // Pobierz wartości X i Y z kontrolki tekstowej
+                    if (int.TryParse(txtX.Text, out int newX) && int.TryParse(txtY.Text, out int newY))
+                    {
+                        // Przesunięcie figury do nowego miejsca
+                        TFG[i].PrzesunDoNowegoXY(pbRysownica, Rysownica, newX, newY);
+                    }
+                    else
+                    {
+                        // Obsłuż błąd, gdy wpisane wartości nie są liczbami całkowitymi
+                        MessageBox.Show("Wprowadź poprawne wartości dla X i Y.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
 
@@ -586,19 +624,17 @@ namespace Projekt2_Karwowski65859
             btnWlaczPrezentacje.Enabled = false;
             txtIndeksFigury.Enabled = false;
             btnStop.Enabled = false;
+            trackBarX.Enabled = false;
+            trackBarY.Enabled = false;
 
             //dodać inne resety które będą potrzebne
         }
 
         private void comboBoxStylLinii_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Pobierz wybrany typ figury
-            if (chbFiguryGeometryczne.SelectedItem == null)
-            {
-                MessageBox.Show("Wybierz typ figury, której chcesz zmienić styl linii.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+        
         }
+
 
         private void btnPrzesuniecieZeZmianami_Click(object sender, EventArgs e)
         {
@@ -612,69 +648,70 @@ namespace Projekt2_Karwowski65859
             // Wyczyść powierzchnię graficzną przed przesunięciem figur
             WyczyscPowierzchnieGraficzna();
 
-            // deklaracja i utworzenie egzemplarza generatora liczb losowych
-            Random rnd = new Random();
-
-            // Przesuń każdą figurę do nowego losowego miejsca i nadaj jej nowe atrybuty
-            for (int i = 0; i < IndexTFG; i++)
+            // Pobierz wartości X i Y z kontrolki tekstowej
+            if (int.TryParse(txtX.Text, out int newX) && int.TryParse(txtY.Text, out int newY))
             {
-                if (TFG[i] != null)
+                // Pobierz atrybuty z innych kontrolkach
+                Color newLineColor = btnWziernikKoloruLinii.BackColor;
+                float newLineWidth = (float)numericGrubosc.Value;
+
+                DashStyle newLineStyle;
+                switch (comboBoxStylLinii.SelectedIndex)
                 {
-                    // Losowanie nowych współrzędnych dla figury
-                    int newX = rnd.Next(Odstep, pbRysownica.Width - Odstep);
-                    int newY = rnd.Next(Odstep, pbRysownica.Height - Odstep);
-
-                    // Losowanie nowego koloru linii
-                    Color newLineColor = Color.FromArgb(rnd.Next(0, 255), rnd.Next(0, 255), rnd.Next(0, 255));
-
-                    // Losowanie nowej grubości linii
-                    float newLineWidth = rnd.Next(1, 10);
-
-                    // Losowanie nowego stylu linii
-                    DashStyle newLineStyle;
-                    switch (rnd.Next(0, 5))
-                    {
-                        case 0:
-                            newLineStyle = DashStyle.Solid;
-                            break;
-                        case 1:
-                            newLineStyle = DashStyle.Dash;
-                            break;
-                        case 2:
-                            newLineStyle = DashStyle.Dot;
-                            break;
-                        case 3:
-                            newLineStyle = DashStyle.DashDot;
-                            break;
-                        case 4:
-                            newLineStyle = DashStyle.DashDotDot;
-                            break;
-                        default:
-                            newLineStyle = DashStyle.Solid;
-                            break;
-                    }
-
-                    // Aktualizacja atrybutów figury
-                    TFG[i].X = newX;
-                    TFG[i].Y = newY;
-                    TFG[i].Kolor = newLineColor;
-                    TFG[i].GruboscLinii = newLineWidth;
-                    TFG[i].StylLinii = newLineStyle;
-
-                    // Przesunięcie figury do nowego miejsca
-                    TFG[i].PrzesunDoNowegoXY(pbRysownica, Rysownica, newX, newY);
+                    case 0:
+                        newLineStyle = DashStyle.Solid;
+                        break;
+                    case 1:
+                        newLineStyle = DashStyle.Dash;
+                        break;
+                    case 2:
+                        newLineStyle = DashStyle.Dot;
+                        break;
+                    case 3:
+                        newLineStyle = DashStyle.DashDot;
+                        break;
+                    case 4:
+                        newLineStyle = DashStyle.DashDotDot;
+                        break;
+                    default:
+                        newLineStyle = DashStyle.Solid;
+                        break;
                 }
-            }
 
-            // Odświeżenie powierzchni graficznej
-            pbRysownica.Refresh();
+                // Przesuń każdą figurę do nowego miejsca i nadaj jej nowe atrybuty
+                for (int i = 0; i < IndexTFG; i++)
+                {
+                    if (TFG[i] != null)
+                    {
+                        // Aktualizacja atrybutów figury
+                        TFG[i].X = newX;
+                        TFG[i].Y = newY;
+                        TFG[i].Kolor = newLineColor;
+                        TFG[i].GruboscLinii = newLineWidth;
+                        TFG[i].StylLinii = newLineStyle;
+
+                        // Przesunięcie figury do nowego miejsca
+                        TFG[i].PrzesunDoNowegoXY(pbRysownica, Rysownica, newX, newY);
+                    }
+                }
+
+                // Odświeżenie powierzchni graficznej
+                pbRysownica.Refresh();
+            }
+            else
+            {
+                // Obsłuż błąd, gdy wpisane wartości nie są liczbami całkowitymi
+                MessageBox.Show("Wprowadź poprawne wartości dla X i Y.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
+    
         private void btnNowaFigura_Click(object sender, EventArgs e)
         {
-
+          
         }
 
+       
         private void btnWlaczPrezentacje_Click(object sender, EventArgs e)
         {
             //wymazanie (wyczyszczenie) powierzchni graficznej
@@ -719,6 +756,19 @@ namespace Projekt2_Karwowski65859
             btnWlaczPrezentacje.Enabled = false;
             //uaktywnienie przycisku polecen wylacz pokaz (slajder) figur geometrycznych
             btnWylaczPrezentacje.Enabled = true;
+
+            btnPrzesuniecieBezZmian.Enabled = false;
+            btnPrzesuniecieZeZmianami.Enabled = false;
+            btnNowaFigura.Enabled = false;
+            btnStop.Enabled = false;
+            btnZmienKolorLinii.Enabled = false;
+            comboBoxStylLinii.Enabled = false;
+            numericGrubosc.Enabled = false;
+            btnZmienKolorTla.Enabled = false;
+            btnWziernikKoloruLinii.Enabled = false;
+            trackBarX.Enabled = false;
+            trackBarY.Enabled = false;
+
         } //od btnWlaczPrezentacje
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -740,5 +790,174 @@ namespace Projekt2_Karwowski65859
 
 
         } //od timer1_Tick
+
+        private Bitmap initialBitmap;
+
+        private void btnPoprzedni_Click(object sender, EventArgs e)
+        {
+            // Sprawdź, czy są jakieś figury do prezentacji
+            if (TFG == null || TFG.Length == 0)
+            {
+                MessageBox.Show("Najpierw utwórz figury geometryczne.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Dekrementuj indeks prezentowanej figury
+            aktualnyIndeks--;
+
+            // Sprawdź, czy indeks nie jest mniejszy niż 0
+            if (aktualnyIndeks < 0)
+            {
+                aktualnyIndeks = IndexTFG - 1; // Przejdź do ostatniej figury, jeśli osiągnęliśmy pierwszą
+            }
+
+            // Wyczyszczenie powierzchni graficznej przed prezentacją nowej figury
+            WyczyscPowierzchnieGraficzna();
+
+            // Prezentacja aktualnej figury
+            if (TFG[aktualnyIndeks] != null)
+            {
+                TFG[aktualnyIndeks].Wykresl(Rysownica);
+            }
+
+            // Aktualizacja pola tekstowego z indeksem
+            txtIndeksFigury.Text = aktualnyIndeks.ToString();
+
+            // Odświeżenie powierzchni graficznej
+            pbRysownica.Refresh();
+        }
+
+        int aktualnyIndeks = 0;
+
+        private void btnNastepny_Click(object sender, EventArgs e)
+        {
+
+            // Sprawdź, czy są jakieś figury do prezentacji
+            if (TFG == null || TFG.Length == 0)
+            {
+                MessageBox.Show("Najpierw utwórz figury geometryczne.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Inkrementuj indeks prezentowanej figury
+            aktualnyIndeks++;
+
+            // Sprawdź, czy indeks nie przekracza liczby utworzonych figur
+            if (aktualnyIndeks >= IndexTFG)
+            {
+                aktualnyIndeks = 0; // Wróć do pierwszej figury, jeśli przekroczyliśmy liczbę figur
+            }
+
+            // Wyczyszczenie powierzchni graficznej przed prezentacją nowej figury
+            WyczyscPowierzchnieGraficzna();
+
+            // Prezentacja aktualnej figury
+            if (TFG[aktualnyIndeks] != null)
+            {
+                TFG[aktualnyIndeks].Wykresl(Rysownica);
+            }
+
+            // Aktualizacja pola tekstowego z indeksem
+            txtIndeksFigury.Text = aktualnyIndeks.ToString();
+
+            // Odświeżenie powierzchni graficznej
+            pbRysownica.Refresh();
+        }
+
+        private void btnWylaczPrezentacje_Click(object sender, EventArgs e)
+        {
+            // Wyczyszczenie powierzchni graficznej przed zakończeniem prezentacji
+            WyczyscPowierzchnieGraficzna();
+            pbRysownica.Refresh();
+
+            // Zresetowanie indeksu i przycisków po zakończeniu prezentacji
+            aktualnyIndeks = 0;
+            txtIndeksFigury.Text = "0";
+            btnNastepny.Enabled = true;
+            btnPoprzedni.Enabled = true;
+            btnWylaczPrezentacje.Enabled = false;
+            btnWlaczPrezentacje.Enabled = true;
+
+            // 1. Wyczyszczenie tablicy TFG
+            TFG = null;
+            IndexTFG = 0;
+
+            // 2. Resetowanie grafiki
+            Rysownica.Clear(pbRysownica.BackColor);
+            pbRysownica.Refresh();
+
+            // 3. Przywrócenie domyślnych ustawień kontrolek
+            txtN.Enabled = true;
+            txtN.Text = "";
+            numericGrubosc.Value = 1;
+            btnWziernikKoloruLinii.BackColor = Color.Transparent;
+
+            // 4. Resetowanie chbFiguryGeometryczne do początkowych elementów
+            chbFiguryGeometryczne.Items.Clear();
+            chbFiguryGeometryczne.Items.Add("Punkt");
+            chbFiguryGeometryczne.Items.Add("Linia");
+            chbFiguryGeometryczne.Items.Add("Elipsa");
+            chbFiguryGeometryczne.Items.Add("Okrag");
+            chbFiguryGeometryczne.Items.Add("Prostokat");
+            chbFiguryGeometryczne.Items.Add("Kwadrat");
+            chbFiguryGeometryczne.Items.Add("Elipsa Wypelniana");
+            // Dodaj więcej elementów według potrzeb...
+
+            // 5. Aktywowanie/deaktywowanie odpowiednich kontrolek
+            btnStart.Enabled = true;
+            chbFiguryGeometryczne.Enabled = true;
+            btnPrzesuniecieBezZmian.Enabled = false;
+            btnZmienKolorLinii.Enabled = false;
+            numericGrubosc.Enabled = false;
+            comboBoxStylLinii.Enabled = false;
+            btnPrzesuniecieZeZmianami.Enabled = false;
+            btnNowaFigura.Enabled = false;
+            btnWlaczPrezentacje.Enabled = false;
+            txtIndeksFigury.Enabled = false;
+            btnStop.Enabled = false;
+            btnNastepny.Enabled = false;
+            btnPoprzedni.Enabled = false;
+            trackBarX.Enabled = false;
+            trackBarY.Enabled = false;
+
+            btnZmienKolorTla.Enabled = true;
+            
+
+
+
+        }
+
+        private void txtIndeksFigury_TextChanged(object sender, EventArgs e)
+        {
+            if (int.TryParse(txtIndeksFigury.Text, out int indeks) && indeks >= 0 && indeks < IndexTFG)
+            {
+                // Sprawdź, czy wprowadzony indeks mieści się w zakresie dostępnych figur
+
+                // Ustaw wybraną figurę na podstawie indeksu
+                string nazwaTypuFigury = TFG[indeks].GetType().Name;
+                chbFiguryGeometryczne.SelectedItem = nazwaTypuFigury;
+
+                // Zaznacz figurę w chbFiguryGeometryczne
+                chbFiguryGeometryczne.SetItemChecked(currentIndex, true);
+            }
+            else
+            {
+                // Wprowadzony indeks jest nieprawidłowy, możesz obsłużyć to według własnego uznania
+                // Na przykład, możesz wyświetlić komunikat o błędzie lub oczyścić zaznaczenie w chbFiguryGeometryczne
+                chbFiguryGeometryczne.ClearSelected();
+            }
+        }
+
+     
+
+        private void trackBarX_Scroll(object sender, EventArgs e)
+        {
+            txtX.Text = trackBarX.Value.ToString();
+        }
+
+        private void trackBarY_Scroll(object sender, EventArgs e)
+        {
+            txtY.Text = trackBarY.Value.ToString();
+        }
     }
 }
